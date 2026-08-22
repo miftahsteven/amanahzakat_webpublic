@@ -98,12 +98,15 @@ export function SiteHeader() {
             <img
               src="/images/logo-amanahzakat.png"
               alt="Amanah Zakat"
+              height={48}
+              style={{ maxHeight: "48px", width: "auto" }}
               className="h-9 sm:h-11 md:h-12 w-auto object-contain"
             />
             <span className="text-[9px] sm:text-[10px] tracking-[1.4px] uppercase text-[#9A9086] font-extrabold self-end pb-0.5 sm:pb-1.5">
               PEDULI
             </span>
           </Link>
+
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-4 xl:gap-5 shrink-0">

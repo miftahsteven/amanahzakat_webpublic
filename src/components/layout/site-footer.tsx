@@ -15,10 +15,13 @@ export function SiteFooter() {
                 <img
                   src="/images/logo-amanahzakat.png"
                   alt="Amanah Zakat"
+                  height={36}
+                  style={{ maxHeight: "36px", width: "auto" }}
                   className="h-8 sm:h-9 w-auto object-contain"
                 />
               </div>
             </Link>
+
 
             <p className="text-[12.5px] leading-relaxed text-[#8FA6C4] font-normal">
               Lembaga Amil Zakat Nasional berizin Kementerian Agama RI. Laporan keuangan

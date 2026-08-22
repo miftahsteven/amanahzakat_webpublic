@@ -98,8 +98,11 @@ export function HeroCarousel() {
                 <img
                   src="/images/logo-amanahzakat.png"
                   alt="Amanah Zakat"
+                  height={28}
+                  style={{ maxHeight: "28px", width: "auto" }}
                   className="h-6 sm:h-7 w-auto object-contain"
                 />
+
               </div>
 
               <h1 className="text-2xl sm:text-3xl lg:text-[44px] font-extrabold text-[#14509C] tracking-tight leading-[1.12] group-hover:text-[#0E3B74] transition-colors">
@@ -227,6 +230,8 @@ export function HeroCarousel() {
                 <img
                   src="/images/logo-amanahzakat.png"
                   alt="Amanah Zakat"
+                  height={28}
+                  style={{ maxHeight: "28px", width: "auto" }}
                   className="h-6 sm:h-7 w-auto object-contain"
                 />
               </div>
@@ -291,8 +296,11 @@ export function HeroCarousel() {
                 <img
                   src="/images/logo-amanahzakat.png"
                   alt="Amanah Zakat"
+                  height={28}
+                  style={{ maxHeight: "28px", width: "auto" }}
                   className="h-6 sm:h-7 w-auto object-contain"
                 />
+
               </div>
 
               <h1 className="text-2xl sm:text-3xl lg:text-[42px] font-extrabold text-[#1B5E20] tracking-tight leading-[1.12] group-hover:text-[#124116] transition-colors">
