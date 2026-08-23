@@ -45,6 +45,12 @@ export class RestDistributionService implements DistributionService {
   }
 
   async getAggregateStats() {
-    return this.fallbackMock.getAggregateStats();
+    try {
+      const res = await fetch(this.getApiUrl("/distributions/stats"), { cache: "no-store" });
+      if (!res.ok) throw new Error("Failed to fetch distribution stats");
+      return res.json();
+    } catch {
+      return this.fallbackMock.getAggregateStats();
+    }
   }
 }
