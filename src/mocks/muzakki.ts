@@ -3,6 +3,7 @@ import { MuzakkiUser, ZakatHistoryItem, SbmzDocument, RecurringZisPlan } from "@
 export const defaultMuzakkiUser: MuzakkiUser = {
   id: "usr-001",
   memberId: "MZK-2026-0819",
+  role: "MUZAKKI",
   nama: "H. Ahmad Dahlan, S.E.",
   email: "ahmad.dahlan@example.com",
   phone: "081234567890",

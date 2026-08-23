@@ -1,18 +1,9 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { MapPin, Users, Calendar, Heart, ShieldCheck, Share2 } from "lucide-react";
 import { campaignService } from "@/services/campaign";
-import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import { CampaignDonationCard } from "@/components/campaign/campaign-donation-card";
-import {
-  CampaignFundBreakdown,
-  CampaignUpdatesList,
-  DonorActivityList,
-} from "@/components/campaign/campaign-updates";
-import { ShareButtons } from "@/components/shared/share-buttons";
-import { Button } from "@/components/ui/button";
-import { formatCompactIDR, formatIDR } from "@/lib/currency";
+import { formatIDR } from "@/lib/currency";
 
 export async function generateMetadata({
   params,
@@ -25,7 +16,7 @@ export async function generateMetadata({
     return { title: "Kampanye Tidak Ditemukan" };
   }
   return {
-    title: campaign.nama,
+    title: `${campaign.nama} | AmanahZakat Peduli`,
     description: campaign.ringkas,
     openGraph: {
       title: campaign.nama,
@@ -49,115 +40,122 @@ export default async function CampaignDetailPage({
     notFound();
   }
 
-  return (
-    <div className="space-y-8 pb-20">
-      {/* Breadcrumbs & Header Hero */}
-      <div className="bg-gradient-to-b from-[#EEF3FB] to-background border-b border-border py-6 md:py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-          <Breadcrumbs
-            items={[
-              { label: "Katalog Kampanye", href: "/kampanye" },
-              { label: campaign.nama },
-            ]}
-          />
+  // Fallback rincian penggunaan dana if not provided
+  const rincianList =
+    campaign.rincian && campaign.rincian.length > 0
+      ? campaign.rincian
+      : [
+          {
+            item: `Pengadaan logistik & penyaluran ${campaign.program.toLowerCase()}`,
+            nilai: formatIDR(Math.round(campaign.target * 0.7)),
+          },
+          {
+            item: "Operasional distribusi relawan lapangan",
+            nilai: formatIDR(Math.round(campaign.target * 0.2)),
+          },
+          {
+            item: "Monitoring, asesmen & pelaporan asnaf",
+            nilai: formatIDR(Math.round(campaign.target * 0.1)),
+          },
+        ];
 
-          <div className="flex flex-wrap items-center gap-2 pt-2">
-            <span className="text-xs font-bold px-3 py-1 rounded-full bg-primary text-white">
+  return (
+    <div className="max-w-[1160px] mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 font-sans">
+      {/* Back Button */}
+      <Link
+        href="/kampanye"
+        className="inline-flex items-center text-[#14509C] hover:text-[#0E3B74] font-bold text-[13.5px] mb-5 transition-colors"
+      >
+        ← Semua kampanye
+      </Link>
+
+      {/* Main 2-Column Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Column (Content - 7 Cols / 60%) */}
+        <div className="lg:col-span-7 space-y-6">
+          {/* Main Hero Banner Image */}
+          <div className="relative h-[260px] sm:h-[340px] w-full rounded-2xl overflow-hidden bg-[#EAE5DC] shadow-xs">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={campaign.imageUrl || "/images/campaigns/sumur-sumba.jpg"}
+              alt={campaign.nama}
+              className="w-full h-full object-cover"
+            />
+
+
+            {/* Gradient Overlay for bottom text */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
+
+            {/* Top Left: Category Badge */}
+            <span className="absolute left-4 top-4 bg-white/95 backdrop-blur-xs text-[#0E3B74] font-bold text-xs px-3.5 py-1.5 rounded-full shadow-xs select-none">
               {campaign.program}
             </span>
-            <span className="text-xs font-medium text-text-muted flex items-center gap-1 bg-white px-3 py-1 rounded-full border border-border">
-              <MapPin className="h-3.5 w-3.5 text-primary" />
+
+            {/* Bottom Left: Location Text */}
+            <span className="absolute left-4 bottom-4 text-white text-sm sm:text-[15px] font-semibold drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)] select-none">
               {campaign.lokasi}
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-extrabold text-text tracking-tight leading-tight max-w-4xl">
-            {campaign.nama}
-          </h1>
-        </div>
-      </div>
+          {/* Title & Story */}
+          <div className="space-y-3">
+            <h1 className="text-2xl sm:text-[28px] font-extrabold text-[#16211D] tracking-tight leading-snug">
+              {campaign.nama}
+            </h1>
+            <p className="text-[14.5px] sm:text-base text-[#4F473F] leading-relaxed text-pretty">
+              {campaign.cerita || campaign.ringkas}
+            </p>
+          </div>
 
-      {/* Main Grid: Left Story & Updates (2 Cols) | Right Sticky Donation Card (1 Col) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-          {/* Left Column (Content) */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Main Featured Photo */}
-            <div className="relative h-64 sm:h-96 w-full rounded-3xl overflow-hidden shadow-card border border-border bg-[#EAE5DC]">
-              {campaign.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={campaign.imageUrl}
-                  alt={campaign.nama}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="h-full w-full bg-navy flex items-center justify-center text-white font-bold">
-                  AmanahZakat Peduli
+          {/* Rincian Penggunaan Dana */}
+          <div className="bg-white border border-[#EAE5DC] rounded-2xl overflow-hidden shadow-xs">
+            <div className="px-5 py-4 sm:px-6 border-b border-[#F0ECE4] text-[15px] sm:text-base font-bold text-[#16211D]">
+              Rincian penggunaan dana
+            </div>
+            <div className="divide-y divide-[#F5F2EC]">
+              {rincianList.map((r, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center justify-between gap-4 px-5 py-3.5 sm:px-6 text-xs sm:text-sm"
+                >
+                  <span className="text-[#4F473F] leading-snug">{r.item}</span>
+                  <span className="font-mono font-bold text-[#16211D] whitespace-nowrap">
+                    {r.nilai}
+                  </span>
                 </div>
-              )}
-            </div>
-
-            {/* Campaign Story */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-border space-y-4">
-              <h3 className="font-extrabold text-xl text-text">Cerita & Latar Belakang Program</h3>
-              <div className="text-sm sm:text-base text-text-muted leading-relaxed space-y-4">
-                <p>{campaign.cerita}</p>
-                <p>{campaign.ringkas}</p>
-              </div>
-
-              {/* Trust Badge */}
-              <div className="flex items-center gap-3 p-4 rounded-2xl bg-[#FAF8F4] border border-border text-xs text-text-muted">
-                <ShieldCheck className="h-5 w-5 text-emerald-600 shrink-0" />
-                <span>
-                  Program ini dikelola resmi oleh LAZNAS AmanahZakat (SK Kemenag No. 892/2019) dan
-                  disalurkan secara bertahap bersama relawan amil terpercaya.
-                </span>
-              </div>
-            </div>
-
-            {/* Rencana Penggunaan Dana */}
-            {campaign.rincian && campaign.rincian.length > 0 && (
-              <CampaignFundBreakdown rincian={campaign.rincian} />
-            )}
-
-            {/* Kabar Lapangan Terbaru */}
-            <CampaignUpdatesList updates={campaign.kabar} />
-
-            {/* Donatur Terbaru */}
-            <DonorActivityList donors={campaign.donaturList} />
-
-            {/* Share Social Links */}
-            <div className="p-6 rounded-3xl bg-white border border-border">
-              <ShareButtons title={campaign.nama} />
+              ))}
             </div>
           </div>
 
-          {/* Right Column (Sticky Donation Card Desktop) */}
-          <div className="lg:col-span-1">
-            <CampaignDonationCard campaign={campaign} />
-          </div>
+          {/* Kabar Terbaru dari Lapangan (Jika Ada) */}
+          {campaign.kabar && campaign.kabar.length > 0 && (
+            <div className="bg-white border border-[#EAE5DC] rounded-2xl overflow-hidden shadow-xs">
+              <div className="px-5 py-4 sm:px-6 border-b border-[#F0ECE4] text-[15px] sm:text-base font-bold text-[#16211D]">
+                Kabar terbaru dari lapangan
+              </div>
+              <div className="divide-y divide-[#F5F2EC]">
+                {campaign.kabar.map((k, idx) => (
+                  <div key={idx} className="p-5 sm:p-6 space-y-1.5">
+                    <div className="text-[11.5px] font-mono text-[#9A9086] font-semibold">
+                      {k.tgl}
+                    </div>
+                    <h4 className="text-sm sm:text-[15px] font-bold text-[#16211D]">
+                      {k.judul}
+                    </h4>
+                    <p className="text-xs sm:text-[13.5px] text-[#6D645B] leading-relaxed text-pretty">
+                      {k.isi}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      </div>
 
-      {/* Mobile Sticky Bottom Bar CTA */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-30 p-3 bg-white/95 backdrop-blur-md border-t border-border shadow-2xl flex items-center justify-between gap-3">
-        <div>
-          <span className="text-[10px] text-text-subtle block">Terkumpul</span>
-          <span className="font-mono font-extrabold text-base text-primary">
-            {formatCompactIDR(campaign.terkumpul)}
-          </span>
+        {/* Right Column (Sticky Donation Card & Recent Donors - 5 Cols / 40%) */}
+        <div className="lg:col-span-5 space-y-5 lg:sticky lg:top-24">
+          <CampaignDonationCard campaign={campaign} />
         </div>
-
-        <Link
-          href={`/donasi?campaign=${encodeURIComponent(campaign.slug)}`}
-          className="flex-1 max-w-[200px]"
-        >
-          <Button variant="primary" size="md" className="w-full justify-center shadow-md">
-            <Heart className="h-4 w-4 fill-white mr-1" />
-            Donasi
-          </Button>
-        </Link>
       </div>
     </div>
   );

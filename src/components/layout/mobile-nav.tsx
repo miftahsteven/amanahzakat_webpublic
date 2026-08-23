@@ -79,8 +79,9 @@ export function MobileNav({
             <img
               src="/images/logo-amanahzakat.png"
               alt="Amanah Zakat"
-              className="h-8 w-auto object-contain"
+              className="h-8 w-auto object-contain mix-blend-multiply"
             />
+
             <span className="text-[9px] tracking-[1px] uppercase text-[#9A9086] font-extrabold self-end pb-0.5">
               PEDULI
             </span>
@@ -101,7 +102,11 @@ export function MobileNav({
           {isAuthenticated && user ? (
             <div className="p-3.5 rounded-2xl bg-[#FAF8F4] border border-[#EAE5DC] space-y-2.5">
               <div className="flex items-center gap-2.5">
-                <span className="w-8 h-8 rounded-xl bg-[#14509C] text-white flex items-center justify-center text-xs font-bold shrink-0">
+                <span
+                  className={`w-8 h-8 rounded-xl text-white flex items-center justify-center text-xs font-bold shrink-0 ${
+                    user.role === "MUSTAHIK" ? "bg-[#0F9D6E]" : "bg-[#14509C]"
+                  }`}
+                >
                   {user.nama
                     .split(" ")
                     .map((n) => n[0])
@@ -110,33 +115,73 @@ export function MobileNav({
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="text-xs font-bold text-[#1A1613] truncate">{user.nama}</div>
-                  <div className="text-[10px] text-[#8B8177] truncate">{user.memberId}</div>
+                  <div className="text-[10px] text-[#8B8177] truncate flex items-center gap-1.5">
+                    <span>{user.memberId}</span>
+                    <span
+                      className={`px-1.5 py-0.2 rounded text-[9px] font-bold ${
+                        user.role === "MUSTAHIK"
+                          ? "bg-emerald-100 text-emerald-800"
+                          : "bg-blue-100 text-blue-800"
+                      }`}
+                    >
+                      {user.role === "MUSTAHIK" ? "Mustahik" : "Muzakki"}
+                    </span>
+                  </div>
                 </div>
               </div>
 
               <div className="pt-2 border-t border-[#EAE5DC] flex flex-col gap-1 text-xs font-semibold">
-                <Link
-                  href="/muzakki"
-                  onClick={onClose}
-                  className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[#14509C] hover:bg-[#EEF3FB]"
-                >
-                  <span className="flex items-center gap-1.5">
-                    <LayoutDashboard className="h-3.5 w-3.5" />
-                    <span>Dashboard Muzakki</span>
-                  </span>
-                  <ChevronRight className="h-3.5 w-3.5" />
-                </Link>
-                <Link
-                  href="/muzakki?tab=sbmz"
-                  onClick={onClose}
-                  className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[#14509C] hover:bg-[#EEF3FB]"
-                >
-                  <span className="flex items-center gap-1.5">
-                    <FileText className="h-3.5 w-3.5" />
-                    <span>Bukti Potong (SBMZ)</span>
-                  </span>
-                  <ChevronRight className="h-3.5 w-3.5" />
-                </Link>
+                {user.role === "MUSTAHIK" ? (
+                  <>
+                    <Link
+                      href="/mustahik"
+                      onClick={onClose}
+                      className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[#0F9D6E] hover:bg-[#E8F5E9]"
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <LayoutDashboard className="h-3.5 w-3.5" />
+                        <span>Portal Mustahik</span>
+                      </span>
+                      <ChevronRight className="h-3.5 w-3.5" />
+                    </Link>
+                    <Link
+                      href="/mustahik"
+                      onClick={onClose}
+                      className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[#0F9D6E] hover:bg-[#E8F5E9]"
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <FileText className="h-3.5 w-3.5" />
+                        <span>Pengajuan Bantuan</span>
+                      </span>
+                      <ChevronRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/muzakki"
+                      onClick={onClose}
+                      className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[#14509C] hover:bg-[#EEF3FB]"
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <LayoutDashboard className="h-3.5 w-3.5" />
+                        <span>Dashboard Muzakki</span>
+                      </span>
+                      <ChevronRight className="h-3.5 w-3.5" />
+                    </Link>
+                    <Link
+                      href="/muzakki?tab=sbmz"
+                      onClick={onClose}
+                      className="flex items-center justify-between py-1.5 px-2 rounded-lg text-[#14509C] hover:bg-[#EEF3FB]"
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <FileText className="h-3.5 w-3.5" />
+                        <span>Bukti Potong (SBMZ)</span>
+                      </span>
+                      <ChevronRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           ) : (
@@ -147,7 +192,7 @@ export function MobileNav({
             >
               <div className="flex items-center gap-2">
                 <User className="h-4 w-4 text-[#14509C]" />
-                <span>Masuk Akun Muzakki</span>
+                <span>Masuk / Daftar Akun</span>
               </div>
               <ChevronRight className="h-4 w-4" />
             </Link>

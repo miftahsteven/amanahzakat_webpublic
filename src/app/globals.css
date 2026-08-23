@@ -36,9 +36,6 @@
   background: #6D645B;
 }
 
-.scrollbar-none::-webkit-scrollbar {
-  display: none;
-}
 .scrollbar-none {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -67,3 +64,25 @@
     display: none !important;
   }
 }
+
+/* Marquee Single-Row Slider Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+

@@ -100,11 +100,12 @@ export function SiteHeader() {
               alt="Amanah Zakat"
               height={48}
               style={{ maxHeight: "48px", width: "auto" }}
-              className="h-9 sm:h-11 md:h-12 w-auto object-contain"
+              className="h-9 sm:h-11 md:h-12 w-auto object-contain mix-blend-multiply"
             />
             <span className="text-[9px] sm:text-[10px] tracking-[1.4px] uppercase text-[#9A9086] font-extrabold self-end pb-0.5 sm:pb-1.5">
               PEDULI
             </span>
+
           </Link>
 
 
@@ -172,7 +173,12 @@ export function SiteHeader() {
                         <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#EEF3FB] text-[#0E3B74] border border-[#BCD3EE]">
                           {user.memberId}
                         </span>
-                        {user.isNpwpVerified ? (
+                        {user.role === "MUSTAHIK" ? (
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 flex items-center gap-0.5">
+                            <CheckCircle2 className="h-2.5 w-2.5" />
+                            <span>Mustahik</span>
+                          </span>
+                        ) : (user as any).isNpwpVerified ? (
                           <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 flex items-center gap-0.5">
                             <CheckCircle2 className="h-2.5 w-2.5" />
                             <span>NPWP Sah</span>
@@ -180,7 +186,7 @@ export function SiteHeader() {
                         ) : (
                           <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 flex items-center gap-0.5">
                             <AlertCircle className="h-2.5 w-2.5" />
-                            <span>Belum NPWP</span>
+                            <span>Muzakki</span>
                           </span>
                         )}
                       </div>
@@ -188,45 +194,92 @@ export function SiteHeader() {
 
                     {/* Menu Items */}
                     <div className="p-2 space-y-0.5 text-xs font-semibold text-[#3D352E]">
-                      <Link
-                        href="/muzakki"
-                        className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#EEF3FB] hover:text-[#14509C] transition-colors"
-                      >
-                        <LayoutDashboard className="h-4 w-4 text-[#14509C]" />
-                        <span>Dashboard Muzakki</span>
-                      </Link>
+                      {user.role === "MUSTAHIK" ? (
+                        <>
+                          <Link
+                            href="/mustahik"
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#E8F5E9] hover:text-[#0F9D6E] transition-colors"
+                          >
+                            <LayoutDashboard className="h-4 w-4 text-[#0F9D6E]" />
+                            <span>Portal Mustahik</span>
+                          </Link>
 
-                      <Link
-                        href="/muzakki?tab=riwayat"
-                        className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#EEF3FB] hover:text-[#14509C] transition-colors"
-                      >
-                        <History className="h-4 w-4 text-[#14509C]" />
-                        <span>Riwayat Zakat &amp; Donasi</span>
-                      </Link>
+                          <Link
+                            href="/mustahik"
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#E8F5E9] hover:text-[#0F9D6E] transition-colors"
+                          >
+                            <FileText className="h-4 w-4 text-[#0F9D6E]" />
+                            <span>Mengajukan Bantuan</span>
+                          </Link>
 
-                      <Link
-                        href="/muzakki?tab=sbmz"
-                        className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#EEF3FB] hover:text-[#14509C] transition-colors"
-                      >
-                        <FileText className="h-4 w-4 text-[#14509C]" />
-                        <span>Bukti Potong Pajak (SBMZ)</span>
-                      </Link>
+                          <Link
+                            href="/mustahik"
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#E8F5E9] hover:text-[#0F9D6E] transition-colors"
+                          >
+                            <History className="h-4 w-4 text-[#0F9D6E]" />
+                            <span>Pengajuan Saya (5 Tahap)</span>
+                          </Link>
 
-                      <Link
-                        href="/muzakki?tab=recurring"
-                        className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#EEF3FB] hover:text-[#14509C] transition-colors"
-                      >
-                        <Repeat className="h-4 w-4 text-[#14509C]" />
-                        <span>Auto Recurring ZIS</span>
-                      </Link>
+                          <Link
+                            href="/mustahik"
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#E8F5E9] hover:text-[#0F9D6E] transition-colors"
+                          >
+                            <Settings className="h-4 w-4 text-[#0F9D6E]" />
+                            <span>Profil &amp; Rekening Bank</span>
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <Link
+                            href="/muzakki"
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#EEF3FB] hover:text-[#14509C] transition-colors"
+                          >
+                            <LayoutDashboard className="h-4 w-4 text-[#14509C]" />
+                            <span>Dashboard Muzakki</span>
+                          </Link>
 
-                      <Link
-                        href="/muzakki?tab=ringkasan"
-                        className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#EEF3FB] hover:text-[#14509C] transition-colors"
-                      >
-                        <Settings className="h-4 w-4 text-[#14509C]" />
-                        <span>Edit Profil &amp; NPWP</span>
-                      </Link>
+                          <Link
+                            href="/muzakki?tab=riwayat"
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#EEF3FB] hover:text-[#14509C] transition-colors"
+                          >
+                            <History className="h-4 w-4 text-[#14509C]" />
+                            <span>Riwayat Zakat &amp; Donasi</span>
+                          </Link>
+
+                          <Link
+                            href="/muzakki?tab=sbmz"
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#EEF3FB] hover:text-[#14509C] transition-colors"
+                          >
+                            <FileText className="h-4 w-4 text-[#14509C]" />
+                            <span>Bukti Potong Pajak (SBMZ)</span>
+                          </Link>
+
+                          <Link
+                            href="/muzakki?tab=recurring"
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#EEF3FB] hover:text-[#14509C] transition-colors"
+                          >
+                            <Repeat className="h-4 w-4 text-[#14509C]" />
+                            <span>Auto Recurring ZIS</span>
+                          </Link>
+
+                          <Link
+                            href="/muzakki?tab=ringkasan"
+                            onClick={() => setIsProfileDropdownOpen(false)}
+                            className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-[#EEF3FB] hover:text-[#14509C] transition-colors"
+                          >
+                            <Settings className="h-4 w-4 text-[#14509C]" />
+                            <span>Edit Profil &amp; NPWP</span>
+                          </Link>
+                        </>
+                      )}
 
                       <div className="pt-1 border-t border-[#F0ECE4]">
                         <button

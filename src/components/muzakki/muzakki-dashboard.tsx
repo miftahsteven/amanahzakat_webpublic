@@ -74,15 +74,16 @@ export function MuzakkiDashboard() {
   // Sync profile state when user loads
   React.useEffect(() => {
     if (user) {
-      setNama(user.nama || "");
-      setEmail(user.email || "");
-      setPhone(user.phone || "");
-      setAlamat(user.alamat || "");
-      setPekerjaan(user.pekerjaan || "");
-      setNpwp(user.npwp || "");
-      setNik(user.nik || "");
-      setNamaNpwp(user.namaNpwp || user.nama || "");
-      setAlamatKpp(user.alamatKpp || "KPP Pratama Terdaftar");
+      const mzk = user as any;
+      setNama(mzk.nama || "");
+      setEmail(mzk.email || "");
+      setPhone(mzk.phone || "");
+      setAlamat(mzk.alamat || "");
+      setPekerjaan(mzk.pekerjaan || "");
+      setNpwp(mzk.npwp || "");
+      setNik(mzk.nik || "");
+      setNamaNpwp(mzk.namaNpwp || mzk.nama || "");
+      setAlamatKpp(mzk.alamatKpp || "KPP Pratama Terdaftar");
     }
   }, [user]);
 
@@ -109,7 +110,7 @@ export function MuzakkiDashboard() {
         <p className="text-xs text-[#6D645B]">
           Silakan masuk ke akun Muzakki Anda terlebih dahulu untuk melihat dashboard dan bukti setor.
         </p>
-        <Link href="/masuk">
+        <Link href="/masuk?redirect=/muzakki">
           <button
             type="button"
             className="w-full bg-[#14509C] hover:bg-[#0E3B74] text-white font-bold text-xs py-3 rounded-xl shadow-xs transition-colors cursor-pointer"
@@ -117,6 +118,41 @@ export function MuzakkiDashboard() {
             Masuk Akun Sekarang
           </button>
         </Link>
+      </div>
+    );
+  }
+
+  if (user.role === "MUSTAHIK") {
+    return (
+      <div className="max-w-md mx-auto my-12 p-8 bg-white border border-[#EAE5DC] rounded-[24px] shadow-sm text-center space-y-4 font-sans animate-fadeIn">
+        <div className="w-12 h-12 mx-auto rounded-2xl bg-[#E8F5E9] text-[#0F9D6E] flex items-center justify-center font-bold text-xl">
+          <Building className="w-6 h-6" />
+        </div>
+        <h2 className="text-xl font-extrabold text-[#1A1613]">Portal Khusus Muzakki</h2>
+        <p className="text-xs text-[#6D645B] leading-relaxed">
+          Anda saat ini masuk sebagai <strong className="text-[#1A1613]">{user.nama}</strong> (Akun Mustahik / Penerima Manfaat). Sesuai kebijakan, akun Mustahik dan Muzakki bersifat terpisah &amp; unik.
+        </p>
+        <div className="space-y-2 pt-2">
+          <Link href="/mustahik">
+            <button
+              type="button"
+              className="w-full bg-[#0F9D6E] hover:bg-[#0B7D57] text-white font-bold text-xs py-3 rounded-xl shadow-xs transition-colors cursor-pointer flex items-center justify-center gap-2"
+            >
+              <span>Buka Portal Mustahik</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </Link>
+          <button
+            type="button"
+            onClick={() => {
+              logout();
+              router.push("/masuk");
+            }}
+            className="w-full bg-[#FAF8F4] hover:bg-[#EAE5DC] text-[#5E564E] font-bold text-xs py-2.5 rounded-xl transition-colors cursor-pointer"
+          >
+            Keluar &amp; Ganti Akun
+          </button>
+        </div>
       </div>
     );
   }
@@ -178,7 +214,7 @@ export function MuzakkiDashboard() {
               <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#14509C] text-[#A8C8F0] border border-[#1A3F70]">
                 {user.memberId}
               </span>
-              {user.isNpwpVerified ? (
+              {(user as any).isNpwpVerified ? (
                 <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800 flex items-center gap-1">
                   <CheckCircle2 className="h-3 w-3 text-emerald-400" />
                   <span>NPWP Terverifikasi</span>
