@@ -16,29 +16,24 @@ export class RestDonationService implements DonationService {
   async createDonationPayment(
     payload: CreateDonationPaymentRequest
   ): Promise<PaymentInstruction> {
-    try {
-      const res = await fetch(this.getApiUrl("/donations/payments"), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error("Failed to create payment");
-      return res.json();
-    } catch {
-      return this.fallbackMock.createDonationPayment(payload);
+    const res = await fetch(this.getApiUrl("/donations/payments"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => ({}));
+      throw new Error(errBody.message || "Failed to create payment");
     }
+    return res.json();
   }
 
   async getPaymentStatus(transactionId: string): Promise<PaymentInstruction | null> {
-    try {
-      const res = await fetch(this.getApiUrl(`/donations/${transactionId}`), {
-        cache: "no-store",
-      });
-      if (!res.ok) return this.fallbackMock.getPaymentStatus(transactionId);
-      return res.json();
-    } catch {
-      return this.fallbackMock.getPaymentStatus(transactionId);
-    }
+    const res = await fetch(this.getApiUrl(`/donations/${transactionId}`), {
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    return res.json();
   }
 
   async updatePaymentStatusForDemo(
@@ -46,28 +41,23 @@ export class RestDonationService implements DonationService {
     status: PaymentStatus,
     reason?: string
   ): Promise<PaymentInstruction | null> {
-    try {
-      const res = await fetch(this.getApiUrl(`/donations/${transactionId}/pay`), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: status.toUpperCase(), reason }),
-      });
-      if (!res.ok) throw new Error("Failed to update status on server");
-      return res.json();
-    } catch {
-      return this.fallbackMock.updatePaymentStatusForDemo(transactionId, status, reason);
+    const res = await fetch(this.getApiUrl(`/donations/${transactionId}/pay`), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: status.toUpperCase(), reason }),
+    });
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => ({}));
+      throw new Error(errBody.message || "Failed to update status on server");
     }
+    return res.json();
   }
 
   async getReceiptData(transactionId: string): Promise<ReceiptData | null> {
-    try {
-      const res = await fetch(this.getApiUrl(`/donations/${transactionId}/receipt`), {
-        cache: "no-store",
-      });
-      if (!res.ok) return this.fallbackMock.getReceiptData(transactionId);
-      return res.json();
-    } catch {
-      return this.fallbackMock.getReceiptData(transactionId);
-    }
+    const res = await fetch(this.getApiUrl(`/donations/${transactionId}/receipt`), {
+      cache: "no-store",
+    });
+    if (!res.ok) return this.fallbackMock.getReceiptData(transactionId);
+    return res.json();
   }
 }
