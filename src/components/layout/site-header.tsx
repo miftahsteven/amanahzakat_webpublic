@@ -93,19 +93,15 @@ export function SiteHeader() {
       >
         <div className="max-w-[1240px] mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2.5 sm:gap-4">
           {/* Official Brand Logo */}
-          <Link href="/" className="flex items-center gap-1.5 sm:gap-2 group shrink-0 select-none">
+          <Link href="/" className="flex items-center group shrink-0 select-none py-0.5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/logo-amanahzakat.png"
               alt="Amanah Zakat"
-              height={48}
-              style={{ maxHeight: "48px", width: "auto" }}
-              className="h-9 sm:h-11 md:h-12 w-auto object-contain mix-blend-multiply"
+              height={34}
+              style={{ maxHeight: "34px", width: "auto" }}
+              className="h-7 sm:h-7.5 md:h-8 lg:h-[33px] w-auto object-contain"
             />
-            <span className="text-[9px] sm:text-[10px] tracking-[1.4px] uppercase text-[#9A9086] font-extrabold self-end pb-0.5 sm:pb-1.5">
-              PEDULI
-            </span>
-
           </Link>
 
 

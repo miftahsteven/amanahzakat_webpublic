@@ -74,18 +74,14 @@ export function MobileNav({
       <div className="fixed inset-y-0 right-0 z-[101] w-[85vw] max-w-xs bg-white shadow-2xl flex flex-col border-l border-[#E9E5DD] animate-in slide-in-from-right duration-300">
         {/* Drawer Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-[#E9E5DD] bg-[#FBFAF7]">
-          <div className="flex items-center gap-1.5">
+          <Link href="/" onClick={onClose} className="flex items-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/logo-amanahzakat.png"
               alt="Amanah Zakat"
-              className="h-8 w-auto object-contain mix-blend-multiply"
+              className="h-7 w-auto object-contain"
             />
-
-            <span className="text-[9px] tracking-[1px] uppercase text-[#9A9086] font-extrabold self-end pb-0.5">
-              PEDULI
-            </span>
-          </div>
+          </Link>
           <button
             type="button"
             onClick={onClose}
