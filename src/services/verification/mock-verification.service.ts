@@ -108,4 +108,26 @@ export class MockVerificationService implements VerificationService {
         "Dokumen tidak ditemukan dalam database publik AmanahZakat. Pastikan nomor bukti setor atau SBMZ yang Anda masukkan sudah benar.",
     };
   }
+
+  async verifyBszSigned(ref: string, _sig: string): Promise<VerificationResult> {
+    // Mock mode: ignore HMAC and resolve by document number for local demos.
+    const result = await this.verifyDocument(ref);
+    if (result.isValid) {
+      return {
+        ...result,
+        noKwitansi: result.noKwitansi || result.documentNumber,
+        noSbmz: result.noSbmz || result.documentNumber,
+        status: result.status || "Terverifikasi",
+        notes:
+          result.notes ||
+          "Bukti setor ini sah tanpa tanda tangan basah dan dapat digunakan sebagai pengurang penghasilan kena pajak sesuai PP No. 60 Tahun 2010.",
+      };
+    }
+    return {
+      isValid: false,
+      documentNumber: ref,
+      errorMessage:
+        "Tautan verifikasi tidak cocok dengan data mock. Aktifkan NEXT_PUBLIC_DATA_MODE=api untuk uji signed URL nyata.",
+    };
+  }
 }
