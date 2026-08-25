@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Campaign } from "@/types/campaign.types";
 import { formatCompactIDR } from "@/lib/currency";
+import { formatTenggatDisplay } from "@/lib/campaign-date";
 
 interface CampaignCardProps {
   campaign: Campaign;
@@ -119,7 +120,7 @@ export function CampaignCard({ campaign, className }: CampaignCardProps) {
 
           <div className="flex items-center justify-between text-[11px] text-[#8B8177]">
             <span>{campaign.donaturCount.toLocaleString("id-ID")} donatur</span>
-            <span>s.d. {campaign.tenggat}</span>
+            <span>s.d. {formatTenggatDisplay(campaign.tenggat)}</span>
           </div>
         </div>
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Check, Share2 } from "lucide-react";
 import { Campaign } from "@/types/campaign.types";
 import { formatIDR, formatCompactIDR } from "@/lib/currency";
+import { formatTenggatDisplay } from "@/lib/campaign-date";
 
 interface CampaignDonationCardProps {
   campaign: Campaign;
@@ -80,7 +81,7 @@ export function CampaignDonationCard({ campaign }: CampaignDonationCardProps) {
               BATAS WAKTU
             </div>
             <div className="font-bold text-sm text-[#16211D] mt-0.5">
-              {campaign.tenggat}
+              {formatTenggatDisplay(campaign.tenggat)}
             </div>
           </div>
         </div>

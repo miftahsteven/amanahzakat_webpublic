@@ -1,6 +1,7 @@
 import React from "react";
 import { CampaignFieldUpdate, DonorActivity, FundUsageItem } from "@/types/campaign.types";
 import { formatIDR } from "@/lib/currency";
+import { formatTenggatDisplay } from "@/lib/campaign-date";
 import { Calendar, Heart, ShieldCheck } from "lucide-react";
 
 export function CampaignFundBreakdown({ rincian }: { rincian: FundUsageItem[] }) {
@@ -53,7 +54,7 @@ export function CampaignUpdatesList({ updates }: { updates: CampaignFieldUpdate[
             <div className="absolute -left-[23px] top-1.5 h-3 w-3 rounded-full bg-primary ring-4 ring-white" />
             <div className="flex items-center gap-1.5 text-xs text-primary font-semibold">
               <Calendar className="h-3.5 w-3.5" />
-              <span>{up.tgl}</span>
+              <span>{formatTenggatDisplay(up.tgl)}</span>
             </div>
             <h4 className="font-bold text-sm text-text leading-snug">{up.judul}</h4>
             <p className="text-xs text-text-muted leading-relaxed">{up.isi}</p>
