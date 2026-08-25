@@ -5,7 +5,7 @@ export const siteConfig = {
   description:
     "Portal publik resmi penerimaan ZIS, transparansi penyaluran, laporan dampak program kebaikan, dan pengajuan bantuan kemanusiaan AmanahZakat.",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://amanahzakat.id",
-  ogImage: "/images/og-image.png",
+  ogImage: "/images/amanahzakat_icon.png",
   support: {
     phone: "021-8899-7700",
     whatsapp: "0811-2100-900",

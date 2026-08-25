@@ -62,18 +62,18 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: "/images/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "AmanahZakat Peduli — Salurkan Zakat, Infak & Shodaqoh",
+        url: "/images/amanahzakat_icon.png",
+        width: 600,
+        height: 600,
+        alt: "AmanahZakat",
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
-    images: ["/images/og-image.png"],
+    images: ["/images/amanahzakat_icon.png"],
   },
   robots: {
     index: true,
