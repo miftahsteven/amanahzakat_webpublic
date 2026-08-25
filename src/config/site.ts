@@ -4,8 +4,8 @@ export const siteConfig = {
   tagline: "Salurkan Zakat, Infak & Shodaqoh secara Mudah, Amanah dan Transparan",
   description:
     "Portal publik resmi penerimaan ZIS, transparansi penyaluran, laporan dampak program kebaikan, dan pengajuan bantuan kemanusiaan AmanahZakat.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://peduli.amanahzakat.id",
-  ogImage: "/og-image.jpg",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://amanahzakat.id",
+  ogImage: "/images/og-image.png",
   support: {
     phone: "021-8899-7700",
     whatsapp: "0811-2100-900",
